@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="shortcut icon" href="favicon.ico">
+	<meta charset="UTF-8">
+	<title> Eleos </title>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<!-- Bulma Version 0.7.2-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+	<style type="text/css">
+	html,
+	body {
+		font-family: 'Open Sans';
+	}
+	img {
+		padding: 5px;
+		border: 1px solid #ccc;
+	}
+	</style>
+</head>
+<body class="">
+				<div class="columns">
+					<div class="column is-4 add-top-margin add-bg-purple add-left-margin">
+						<h1 class="title">Free List</h1>
+
+						<div class="our_form has-text-centered">
+
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">💎 item</label>
+								</div>
+								<div class="field-body">
+									<div class="control">
+										<input class="input" type="string" name="item" id="item">
+									</div>
+								</div>
+							</div>
+
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">🏠 city</label>
+								</div>
+								<div class="field-body">
+									<div class="control">
+										<input class="input" type="string" name="location" id="location">
+									</div>
+								</div>
+							</div>
+
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">📧 email</label>
+								</div>
+								<div class="field-body">
+									<div class="control">
+										<input class="input" type="string" name="email" id="email">
+									</div>
+								</div>
+							</div>
+
+							<div class="control">
+								<button class="button is-link">Submit</button>
+							</div>
+						</div>
+					</div>
+					<div class="column white-bg add-left-margin add-little-top">
+						<div class="columns is-variable is-5 is-multiline" id="results">
+						</div>
+					</div>
+				</div>
+
+<!-- scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("button").click(function(){
+		var item = $('#item').val();
+		var location = $('#location').val();
+		var email = $('#email').val();
+		var html = '';
+
+		fetch(`http://localhost:4000/api/free?city=${location}&item=${item}&email=${email}`)
+		.then((res) => res.json())
+		.then((data) => makeHTML(data, html));
+	});
+});
+
+function makeHTML(array, html) {
+	console.log(array);
+	if (array === undefined || array.length == 0) {
+		html += '<p> We could not find any listings, we will send you an email when lisitings appear';
+	} else {
+		for (listing of array)
+		{
+			html += '<div class="column is-4"><div class="card"><div class="card-content"><div class="content"><h4 class="Title is-3">';
+			html += listing.title;
+			html += '</h4><div class="columns is-gapless"><div class="column is-10"><time>';
+			html += listing.date;
+			html += '</time></div><div class="column has-text-right"><a href="';
+			html += listing.url;
+			html += '"><span class="icon has-text-link"><i class="fas fa-link"></i></span></a>';
+			html += '</div></div></div></div></div></div>';
+
+		}
+	}
+	$("#results").html(html);
+}
+</script>
+</body>
+</html>

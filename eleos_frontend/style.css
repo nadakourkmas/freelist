@@ -1,0 +1,25 @@
+.add-top-margin {
+	padding-top: 200px !important;
+}
+
+.add-left-margin {
+	padding-left: 30px !important;
+	padding-right: 30px !important;
+}
+
+.add-little-top {
+	padding-top: 50px !important;
+}
+
+.white-bg {
+	background-color: white;
+}
+
+.add-bg-purple {
+	background-color: #F5D4FF;
+	min-height: 100vh;
+}
+
+body {
+	min-height: 100vh;
+}
